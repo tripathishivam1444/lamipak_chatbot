@@ -118,7 +118,7 @@ def web_data_loader(urls):
         print(document)
 
         # Creating Chroma database from a single document
-        web_chroma_db = Chroma.from_documents([document], embedding=embeddings, persist_directory="Vector_DB/")
+        #web_chroma_db = Chroma.from_documents([document], embedding=embeddings, persist_directory="Vector_DB/")
         
         
         url="https://0c48d6c0-91d3-48ae-95b9-414ed284aad7.us-east4-0.gcp.cloud.qdrant.io:6333", 
