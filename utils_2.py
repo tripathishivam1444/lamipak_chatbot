@@ -61,13 +61,14 @@ def pdf_to_text(pdf_files):
     
     st.write( "pdf_docs -------> ",pdf_docs)
     
-    url="https://0c48d6c0-91d3-48ae-95b9-414ed284aad7.us-east4-0.gcp.cloud.qdrant.io:6333", 
-    api_key="JHbe2Onl9d7skuq9POOZgK3Zma_iJQu59zPtks7F0o9WrtAiKJcpcw",
+    url="https://2443ceb5-760b-48d0-a96c-9c9a65b2b8f1.us-east4-0.gcp.cloud.qdrant.io:6333"
+    api_key="HX0t_FWV5dP4HH9PtI755AnehSgRmIQyLaqoQ8sCxZKJw33eUV5hWQ"
+   
     qdrant = Qdrant.from_documents(pdf_docs,
                                    OpenAIEmbeddings(), 
-                                   url=url[0],
+                                   url=url,
                                    prefer_grpc=True,
-                                   api_key=api_key[0],
+                                   api_key=api_key,
                                    collection_name="mycollection")
     
     # pdf_chroma_db = Chroma.from_documents(pdf_docs, embedding=embeddings, persist_directory= "Vector_DB/")
@@ -121,13 +122,14 @@ def web_data_loader(urls):
         #web_chroma_db = Chroma.from_documents([document], embedding=embeddings, persist_directory="Vector_DB/")
         
         
-        url="https://0c48d6c0-91d3-48ae-95b9-414ed284aad7.us-east4-0.gcp.cloud.qdrant.io:6333", 
-        api_key="JHbe2Onl9d7skuq9POOZgK3Zma_iJQu59zPtks7F0o9WrtAiKJcpcw",
+        url="https://2443ceb5-760b-48d0-a96c-9c9a65b2b8f1.us-east4-0.gcp.cloud.qdrant.io:6333"
+        api_key="HX0t_FWV5dP4HH9PtI755AnehSgRmIQyLaqoQ8sCxZKJw33eUV5hWQ"
+   
         qdrant = Qdrant.from_documents([document],
                                OpenAIEmbeddings(),
-                               url=url[0],
+                               url=url,
                                prefer_grpc=True,
-                               api_key=api_key[0],
+                               api_key=api_key,
                                collection_name="mycollection")
         
         st.write( f"{i}/{len(web_docs)}" )
