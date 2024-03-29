@@ -64,6 +64,7 @@ def pdf_to_text(pdf_files):
     url="https://2443ceb5-760b-48d0-a96c-9c9a65b2b8f1.us-east4-0.gcp.cloud.qdrant.io:6333"
     api_key="HX0t_FWV5dP4HH9PtI755AnehSgRmIQyLaqoQ8sCxZKJw33eUV5hWQ"
    
+       
     qdrant = Qdrant.from_documents(pdf_docs,
                                    OpenAIEmbeddings(), 
                                    url=url,
@@ -125,6 +126,7 @@ def web_data_loader(urls):
         url="https://2443ceb5-760b-48d0-a96c-9c9a65b2b8f1.us-east4-0.gcp.cloud.qdrant.io:6333"
         api_key="HX0t_FWV5dP4HH9PtI755AnehSgRmIQyLaqoQ8sCxZKJw33eUV5hWQ"
    
+   
         qdrant = Qdrant.from_documents([document],
                                OpenAIEmbeddings(),
                                url=url,
@@ -140,55 +142,32 @@ def web_data_loader(urls):
 
 
 
-url="https://0c48d6c0-91d3-48ae-95b9-414ed284aad7.us-east4-0.gcp.cloud.qdrant.io:6333"
-api_key="JHbe2Onl9d7skuq9POOZgK3Zma_iJQu59zPtks7F0o9WrtAiKJcpcw"
+url="https://2443ceb5-760b-48d0-a96c-9c9a65b2b8f1.us-east4-0.gcp.cloud.qdrant.io:6333"
+api_key="HX0t_FWV5dP4HH9PtI755AnehSgRmIQyLaqoQ8sCxZKJw33eUV5hWQ"
     
-embeddings = OpenAIEmbeddings( )
-client = qdrant_client.QdrantClient(  url=url, prefer_grpc=True, api_key=api_key)
 
-vectorstore = Qdrant(
-        client=client,
-        collection_name= 'mycollection',
-        embeddings=embeddings
-    )
-
-# vector_BD = vector_Batabase.get()
-# st.write("vector_BD ---> ", vector_BD)
-
-
-# # ------------------------------------------------------------------------
-
-def genrating_answer_from_db( query , vectorstore =  vectorstore):  #vector_BD = vector_Batabase
-
-    # model = ChatOpenAI(model = 'gpt-3.5-turbo-16k', temperature = 0.7)
-    # template = """
-    #                 you have to genrate or create answer only from given context.
-    #                 Rule: develop this quetion answer from this context.
-    #                 Rule: Don't try to say 'I don't know the answer' or don't try to escape the Question. you have to give as much as posible answer from this given context.
-    #                 Rule: You should develop answer from this contxt.
-    #                 Context: {context}
-    #                 Question: {question}
-    #                 Answer: """ 
-                    
-    #                 Rule: You are not suppose to give answer yo own.
-    #                 any word and any Question word are littile bit similar thank you should have give answer based on context.
-    #                 if any question word and any context word are not simmilar than you just say, 'I am less aware of 🙄 what you are asking, please Increase my knowlege 📚 by uploadfing pdf, OR just website/YouTube video links.🙂'  
-
-
-    # prompt = PromptTemplate(template=template, input_variables = ["context", "question"])
-    # rag_chain = (
-    #             {"context": vector_BD.as_retriever(),  "question": RunnablePassthrough()} 
-    #             | prompt 
-    #             | model
-    #             | StrOutputParser() 
+client = qdrant_client.QdrantClient(url=url, prefer_grpc=True, api_key=api_key)
     
-    # print("vectorstore-->", vectorstore)
-    qa = RetrievalQA.from_chain_type(llm=OpenAI( ),
+vectorstore = Qdrant(client=client,
+                     collection_name= 'linedin_work',
+                     embeddings= OpenAIEmbeddings())
+
+
+
+def conversational_chat(query, vectorstore= vectorstore):
+    # chain = ConversationalRetrievalChain.from_llm(llm = ChatOpenAI(temperature=0.0,model_name='gpt-3.5-turbo'),
+    #                                           retriever=vectorstore.as_retriever(),
+    #                                           )
+    
+
+    qa = RetrievalQA.from_chain_type(llm=OpenAI(),
                                 chain_type="stuff",
                                 retriever=vectorstore.as_retriever() )
-    #             )
+
     answer = qa.run(query)
+    
     return answer
+
 
 
 
