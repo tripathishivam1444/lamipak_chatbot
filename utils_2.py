@@ -54,7 +54,7 @@ def pdf_to_text(pdf_files):
             all_pdf_text_list.append(text)
             source_list.append(file.name + "_page_" + str(page_number))
             
-    text_splitter = RecursiveCharacterTextSplitter( chunk_size = 1000, chunk_overlap = 0, length_function = len,)
+    text_splitter = RecursiveCharacterTextSplitter( chunk_size = 1000, chunk_overlap = 20, length_function = len,)
     
     # vector_db = Chroma.from_texts(all_pdf_text_list, OpenAIEmbeddings())
     pdf_docs = text_splitter.create_documents(all_pdf_text_list, metadatas = [{"sounrce" : s} for s in source_list])
@@ -65,12 +65,13 @@ def pdf_to_text(pdf_files):
     api_key="HX0t_FWV5dP4HH9PtI755AnehSgRmIQyLaqoQ8sCxZKJw33eUV5hWQ"
    
        
-    qdrant = Qdrant.from_documents(pdf_docs,
+    qdrant = Qdrant.from_documents(batch_documents,
                                    OpenAIEmbeddings(), 
                                    url=url,
                                    prefer_grpc=True,
                                    api_key=api_key,
-                                   collection_name="mycollection")
+                                   collection_name="Lamipak_chatbot",
+                                   force_recreate=True)
     
     # pdf_chroma_db = Chroma.from_documents(pdf_docs, embedding=embeddings, persist_directory= "Vector_DB/")
     # pdf_chroma_db.persist()
@@ -132,7 +133,7 @@ def web_data_loader(urls):
                                url=url,
                                prefer_grpc=True,
                                api_key=api_key,
-                               collection_name="mycollection")
+                               collection_name="Lamipak_chatbot")
         
         st.write( f"{i}/{len(web_docs)}" )
         time.sleep(25)
@@ -149,7 +150,7 @@ api_key="HX0t_FWV5dP4HH9PtI755AnehSgRmIQyLaqoQ8sCxZKJw33eUV5hWQ"
 client = qdrant_client.QdrantClient(url=url, prefer_grpc=True, api_key=api_key)
     
 vectorstore = Qdrant(client=client,
-                     collection_name= 'linedin_work',
+                     collection_name= 'Lamipak_chatbot',
                      embeddings= OpenAIEmbeddings())
 
 
