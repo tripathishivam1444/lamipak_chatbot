@@ -65,7 +65,7 @@ def pdf_to_text(pdf_files):
     api_key="HX0t_FWV5dP4HH9PtI755AnehSgRmIQyLaqoQ8sCxZKJw33eUV5hWQ"
    
        
-    qdrant = Qdrant.from_documents(batch_documents,
+    qdrant = Qdrant.from_documents(pdf_docs,
                                    OpenAIEmbeddings(), 
                                    url=url,
                                    prefer_grpc=True,
@@ -97,7 +97,7 @@ def web_data_loader(urls):
             web_data = UnstructuredURLLoader(urls)
             web_text = web_data.load()
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0, length_function=len)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20, length_function=len)
 
     web_docs = text_splitter.split_documents(web_text)
     st.write("web_docs -------------> ", web_docs)
