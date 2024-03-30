@@ -35,17 +35,17 @@ if upload_button:
     url_pattern = re.compile(r'https?://\S+?(?=\s|$)')
     url_list = url_pattern.findall(url_container)
 
-    for url in url_list:
-        print("URL ---> ", url)
-        home_page_url = get_home_page_url(url)
+    # for url in url_list:
+    #     print("URL ---> ", url)
+    #     home_page_url = get_home_page_url(url)
 
-        list_of_urls = get_unique_urls(home_page_url, visited_urls)
-        all_urls.extend(list_of_urls)
+    #     list_of_urls = get_unique_urls(home_page_url, visited_urls)
+    #     all_urls.extend(list_of_urls)
     
     
 
     
-    if (pdf_files != []) & (all_urls != []):
+    if (pdf_files != []) & (url_list != []):
 
         for file, url in zip(pdf_files, all_urls):
             st.sidebar.write(f"Extracting text from PDF file: {file.name}")
@@ -60,7 +60,7 @@ if upload_button:
         st.sidebar.success("Pdf Data saved into Chroma DataBase", icon= "✅")
         
             
-    elif all_urls : 
+    elif url_list : 
         all_web_docs = web_data_loader(all_urls)
         st.sidebar.success("Web Data saved into Chroma DataBase", icon= "✅")
             
