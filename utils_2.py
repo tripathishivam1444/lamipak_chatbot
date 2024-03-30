@@ -70,8 +70,7 @@ def pdf_to_text(pdf_files):
                                    url=url,
                                    prefer_grpc=True,
                                    api_key=api_key,
-                                   collection_name="Lamipak_chatbot",
-                                   force_recreate=True)
+                                   collection_name="Lamipak_chatbot")
     
     # pdf_chroma_db = Chroma.from_documents(pdf_docs, embedding=embeddings, persist_directory= "Vector_DB/")
     # pdf_chroma_db.persist()
