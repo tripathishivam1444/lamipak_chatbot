@@ -155,7 +155,7 @@ vectorstore = Qdrant(client=client,
 
 
 
-def conversational_chat(query, vectorstore= vectorstore):
+def genrating_answer_from_db(query, vectorstore= vectorstore):
     # chain = ConversationalRetrievalChain.from_llm(llm = ChatOpenAI(temperature=0.0,model_name='gpt-3.5-turbo'),
     #                                           retriever=vectorstore.as_retriever(),
     #                                           )
