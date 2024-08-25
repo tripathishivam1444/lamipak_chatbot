@@ -19,7 +19,7 @@ st.sidebar.header("Upload Data")
 # """getting Pdf files"""
 pdf_files = st.sidebar.file_uploader("Upload Pdfs" , type=['pdf'], accept_multiple_files = True)
 
-url_container = st.sidebar.text_area("paste yor link ")
+url_container = st.sidebar.text_area("paste your link ")
 # """Getting URLS"""
 # all_
 
