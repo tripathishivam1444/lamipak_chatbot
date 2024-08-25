@@ -28,16 +28,6 @@ load_dotenv()
 
 import os 
 
-# folder_name = "Vector_DB"
-
-# # Check if the folder already exists
-# if not os.path.exists(folder_name):
-#     # Create the folder if it doesn't exist
-#     os.makedirs(folder_name)
-#     print(f"Folder '{folder_name}' created successfully.")
-# else:
-#     print(f"Folder '{folder_name}' already exists.")
-
 
 
 #------------------------------------------------------------------------
@@ -61,8 +51,8 @@ def pdf_to_text(pdf_files):
     
     st.write( "pdf_docs -------> ",pdf_docs)
     
-    url="https://2443ceb5-760b-48d0-a96c-9c9a65b2b8f1.us-east4-0.gcp.cloud.qdrant.io:6333"
-    api_key="HX0t_FWV5dP4HH9PtI755AnehSgRmIQyLaqoQ8sCxZKJw33eUV5hWQ"
+    url="https://f881097e-33f9-43d6-a53f-c9d330c43384.europe-west3-0.gcp.cloud.qdrant.io:6333"
+    api_key="iYrvlwR9ksNus0h7O7-IUSyxwgJTCcGoZjgmb5pO0JkNkbRgspMQJg"
    
        
     qdrant = Qdrant.from_documents(pdf_docs,
