@@ -1,91 +1,59 @@
-import streamlit as st
-from  streamlit_chat import message
-from utils_2 import  *
-from url_extractor_main import *
 import re
+import streamlit as st
+from streamlit_chat import message
+from utils import pdf_to_text, web_data_loader, genrating_answer_from_db
 
-
+st.markdown("<h1 style='color: maroon;'>TRIPATHI UTKARSH</h1>", unsafe_allow_html=True)
 
 if "user_input" not in st.session_state:
     st.session_state['user_input'] = []
     
-    
- 
-if "AI_responce" not in st.session_state:
-    st.session_state['AI_responce'] = []
+if "AI_response" not in st.session_state:
+    st.session_state['AI_response'] = []
 
 st.sidebar.header("Upload Data")
 
-# """getting Pdf files"""
-pdf_files = st.sidebar.file_uploader("Upload Pdfs" , type=['pdf'], accept_multiple_files = True)
 
-url_container = st.sidebar.text_area("paste your link ")
-# """Getting URLS"""
-# all_
-
+pdf_files = st.sidebar.file_uploader("Upload PDFs", type=['pdf'], accept_multiple_files=True)
+url_container = st.sidebar.text_area("Paste your link(s)")
 
 upload_button = st.sidebar.button("Upload Data")
 
-
 if upload_button:
-    
     visited_urls = set()
     all_urls = []
 
-    url_pattern = re.compile(r'https?://\S+?(?=\s|$)')
+
+    url_pattern = re.compile(r'https?://\S+')
     url_list = url_pattern.findall(url_container)
 
-    # for url in url_list:
-    #     print("URL ---> ", url)
-    #     home_page_url = get_home_page_url(url)
 
-    #     list_of_urls = get_unique_urls(home_page_url, visited_urls)
-    #     all_urls.extend(list_of_urls)
-    
-    
-
-    
-    if (pdf_files != []) & (url_list != []):
-
-        for file, url in zip(pdf_files, all_urls):
-            st.sidebar.write(f"Extracting text from PDF file: {file.name}")
+    if pdf_files or url_list:
+        if pdf_files:
+            st.sidebar.write("Extracting text from PDF files...")
             all_pdf_docs = pdf_to_text(pdf_files)
-            all_web_docs = web_data_loader(all_urls)
-        st.sidebar.success("Pdf Data saved into Chroma DataBase", icon= "✅")
-        st.sidebar.success("Web Data saved into Chroma DataBase", icon= "✅")
+            st.sidebar.success("PDF data saved into Chroma Database", icon="✅")
         
-                      
-    elif pdf_files:
-        all_pdf_docs = pdf_to_text(pdf_files)
-        st.sidebar.success("Pdf Data saved into Chroma DataBase", icon= "✅")
-        
-            
-    elif url_list : 
-        all_web_docs = web_data_loader(all_urls)
-        st.sidebar.success("Web Data saved into Chroma DataBase", icon= "✅")
-            
+        if url_list:
+            st.sidebar.write("Extracting text from web data...")
+            all_web_docs = web_data_loader(url_list)
+            st.sidebar.success("Web data saved into Chroma Database", icon="✅")
     else:
-        st.sidebar.write("please add at least url or Pdf")
+        st.sidebar.write("Please add at least a URL or PDF")
 
 
-
-input_query = st.chat_input("input your Query ")
+input_query = st.chat_input("Input your query")
 
 if input_query:
     answer = genrating_answer_from_db(input_query)
+    st.session_state.user_input.append(input_query)
+    st.session_state.AI_response.append(answer)
 
-    st.session_state.AI_responce.append(input_query)
-    st.session_state.user_input.append(answer)
 
-    
-    
 message_history = st.empty()
 
 if message_history:
     for i in range(len(st.session_state['user_input'])):
-        
-        message(st.session_state['AI_responce'][i], avatar_style="miniavs", is_user=True , key=str(i) + 'data_by_user') #["Alice", "Bob", "Charlie"]
-        
-        message(st.session_state["user_input"][i], key=str(i), avatar_style="icons")
-    
-    
+
+        message(st.session_state['user_input'][i], avatar_style="avataaars", is_user=True, key=f"{i}_user")
+        message(st.session_state['AI_response'][i], key=f"{i}_ai", avatar_style="bottts")
