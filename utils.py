@@ -54,7 +54,7 @@ def pdf_to_text(pdf_files):
                                    url=QDERANT_URL,
                                    prefer_grpc=True,
                                    api_key=QDRANT_API_API,
-                                   collection_name="Lamipak_chatbot")
+                                   collection_name="Oman_Qdrant_Cluster")
     return qdrant
     
 
@@ -99,7 +99,7 @@ def web_data_loader(urls):
                                url=QDERANT_URL,
                                prefer_grpc=True,
                                api_key=QDRANT_API_API,
-                               collection_name="Lamipak_chatbot")
+                               collection_name="Oman_Qdrant_Cluster")
         
         st.write( f"{i+1}/{len(web_docs)}" )
         time.sleep(25)
@@ -109,7 +109,7 @@ def web_data_loader(urls):
 client = qdrant_client.QdrantClient(url=QDERANT_URL, prefer_grpc=True, api_key=QDRANT_API_API)
     
 vectorstore = Qdrant(client=client,
-                     collection_name= 'Lamipak_chatbot',
+                     collection_name= 'Oman_Qdrant_Cluster',
                      embeddings= OpenAIEmbeddings(),
                      )
 
